@@ -15,7 +15,7 @@ class antiqueTableManager( object ):
 	def getCurrentTotalTable( self ):
 		''' Get the initial table when you log in that contains the last date/time updated'''
 		page  = requests.post( 'https://www.mall-info.com/default.asp', data=self.cred  )
-
+		
         	df = pandas.read_html( page.content )[1]
 
         	df.index = df[0]
