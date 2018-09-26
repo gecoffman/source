@@ -29,7 +29,9 @@ def main():
 		if updatedDate == datetime.date.today():
 		
 			subject = 'Sales updated for %s' % str( updatedDate )
-        		msg = 'Go check!'
+			currentTotal = tableManager.getCurrentTotal()
+        		msg = 'Go check! The current total is %s' % currentTotal
+
 			sendMail( emails[0], subject, msg )	
 			sendMail( emails[1], subject, msg )
 

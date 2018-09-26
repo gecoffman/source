@@ -35,7 +35,7 @@ class antiqueTableManager( object ):
 
 	def getCurrentTotal( self ):
 		''' Determine current total ''' 
-		df = getDateUpdatedTable()
+		df = self.getCurrentTotalTable()
                 currentTotal = df[ 'CurrentCheck' ].iloc[0]
 		return currentTotal
 
