@@ -31,13 +31,14 @@ def main():
 			subject = 'Sales updated for %s' % str( updatedDate )
 			currentTotal = tableManager.getCurrentTotal()
         		msg = 'Go check! The current total is %s' % currentTotal
-
-			sendMail( emails[0], subject, msg )	
-			sendMail( emails[1], subject, msg )
-
-			#tableManager.updateSalesHistoryLocally()
-			hasUpdated=True
-
+			
+			#sendMail( emails[0], subject, msg )	
+			#sendMail( emails[1], subject, msg )
+			sess = getSession()
+			df = tableManager.getSalesHistoryTable()
+			print df.head()
+			sess.write_frame( 'GC32','History_'+ str( updatedDate ),  df )
+			hasUpdated = True
 		else:
 			time.sleep( 5 * 60 ) 		
 

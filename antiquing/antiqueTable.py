@@ -1,6 +1,9 @@
+import sys
+
+sys.path.insert( 0, 'home/ekarg' )
 import requests
 import pandas
-
+from bs4 import BeautifulSoup
 from dateutil import parser
 
 
@@ -15,7 +18,7 @@ class antiqueTableManager( object ):
 	def getCurrentTotalTable( self ):
 		''' Get the initial table when you log in that contains the last date/time updated'''
 		page  = requests.post( 'https://www.mall-info.com/default.asp', data=self.cred  )
-		
+	        		
         	df = pandas.read_html( page.content )[1]
 
         	df.index = df[0]
@@ -42,13 +45,9 @@ class antiqueTableManager( object ):
 		
 	def getSalesHistoryTable( self ):
 	       ''' Return data frame of the sales history '''
-               page  = requests.post( 'https://www.mall-info.com/History_Sales.asp', data=self.cred  )	
-	 
-	       return page.content
-	 	
-
-	def updateSalesHistoryLocally( self ):
-		print self.getSalesHistoryTable() 
-
-
-
+               page  = requests.post( 'https://www.mall-info.com/default.asp', data=self.cred  )	
+	       soup = BeautifulSoup( page.content, 'html.parser' )
+	       href = soup.select_one("a[href*=History]" )['href']
+	       page  = requests.post( 'https://www.mall-info.com/' + href, data=self.cred  )      
+	       df = pandas.read_html( page.content )[1]
+	       return df
